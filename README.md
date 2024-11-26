@@ -1,86 +1,37 @@
-# **The Abelian Sandpile Model**
-The Abelian Sandpile Model is the common name for the original Bak-Tang-Wiesenfeld Model which was the first discovered example of a system to display Self-Organized Criticality. The Abelian Sandpile Model attempts to predict and model avalanches within a sandpile. This model was first introduced in a 1987 paper by Bak, Tang, Wisenfeld. Since then many extension of the model have been built and much research has gone into understanding the statistics of the model.
+# **The Asymmetric Simple Exclusion Process**
 
-To learn more about The Abelian Sandpile Model and Self-Organized Criticality please see the oringial 1987 scientific paper, *Self-Organized Criticality* by Bak, Tang, Weisenfeld.
+The Asymmetric Simple Exclusion Process (ASEP) is a one-dimensional interacting particle system in physics first introducted in 1970 by Frank Spitzer. Currently it serves as the default model for transport dynamics in stochastic models.
 
-[1987 Bak, Tang, Wiesenfeld.](http://www.chialvo.net/Curso/Cordoba2005/ClasesPowerpoints/Presentacion9/PapersClase9/soc2.pdf)
+Consider the integer line ℤ and initially fix a finite number of particles on it with locations $x_1 < ... < x_N$. Each particle waits a random amount of time having the distribution of an exponential random variable with mean one and then attempts a jump, one site to the right with probability p and one site to the left with probability q, where $p+q=1$. However, if two particles are neighbouring eachother then the left particle cannot jump to the right and the right particle cannot jump to the left, this is called the simple exclusion condition. Every particle $x_i$ evolves according to the above rules independently of eachother. For $p \neq q$ the system is asymmetric.
+
+To learn more about The Asymmetric Simple Exclusion Process please see the oringial 1970 scientific paper, *Interaction of Markov Processes* by Frank Spitzer.
+
+[1970 Frank Spitzer.](https://www.sciencedirect.com/science/article/pii/0001870870900344?via%3Dihub)
 ___
 
 # **About this code**
-The following files contain code to simulate The Abelian Sandpile Model subject to various conditions. As well as code to simulate The General Wildfire Model which is an extension of The Abelian Wildfire Model.
+The following file contains code to simulate The Asymmetric Simple Exclusion Process.
 
-- sandpile.py
-- wildfire.py
-- Functions.py
-- InitialConditionComparison.py
-
-This code is intended for scientific purpose use and hence there are various parameters available to tune for both the Sandpile Model and the General Wildfire Model. Output for both models consists of various data which is explained in detail below.
+- ASEP_simulation.py
 ___
 
 # **Pip Install Packages**
 The following needs to be installed for the code to run.
-
 - numpy
-- scipy
 - matplotlib
-
 ___
 
 # **Explanation of Files and Output**
 
-**1. <u> sandpile.py** </u>\
-Run this file to simulate the Sandpile Model.
-You will be asked for user input for the following questions which determine certain parameters of the Model.
-
-* How many stationary state avalanche occurances do you need between 100 and 1000?:
-* Choose length of sandpile grid between 10 and 50:
-* Choose initial condition.
-Randomized Configuration (0) or Level Configuration (1)? Enter 0 or 1:
-* Choose level configuration between 0,1,2,3:
-
-Output data:
-- Four plots containing the distributions of sandpile hights 0, 1, 2, 3 for the given input.
-- Plot containing the mean number of sandgrains per lattice site over time.
-- Plot containing the distribution of the simulated times between avalanches against a geoemetric distribtuion of rate 0.41
-- Four loglog plots containing frequency of avalanche metrics: Topples, Loss, Area, Length.
+**1. <u> ASEP_simulation.py** </u>\
+Run this file to simulate The Asymmetric Simple Exclusion Process. There are four parameters to fix:
 
 
-**2. <u> sandpile_InitialConditions.py** </u>\
-Run this file to view how convergence to stationary state is independent of initial configruations.
-We chose intial configurations of;
-1. Lattice Uniformly Randomized on {0, 1, 2, 3}
-2. Lattice Level Set for Level set chosen from {0, 1, 2, 3}
+* The probability to hop to the right: p
+* The probability to hop to the left: q
+* The initial state $x_1<...<x_N$: np.array(range($x_1$, $x_N$ ))
+* The time of simulation: T
 
 Output data:
-- Plot showing mean number of sandgrains per site over time for each initial configuration.
+* A space-time diagram showing the evolution of the initial state $x_1<...<x_N$ over time $T$.
 
-**3. <u> wildfire.py** </u>\
-Run this file to simulate the General Wildfire Model.\
-There are various parameters to this model which are coded in at the top and are available for adjustment as commented.
-* Length of grid dimension.
-* Initial Tree density.
-* Wind Direction or no Wind.
-* Pg = Probability of site with no tree growing a tree.
-* Pf = Probability of tree next to fire catching fire.
-* Pe = Probability of tree on fire burning out and becoming an empty site.
-* f = Probability of a tree catching fire by lightning strike.
-* Number of Iterations
-
-Please feel free to adjust the parameters to your liking.\
-Some parameter combinations will make the fire burn out very fast, others will make the fire consume the grid quickly.
-
-In order to simulate a stationary wildfire we recommend using the following probabilies as a starting point for adjustment.
-* Pg = 0.2
-* Pf = 0.9
-* Pe = 0.5
-* f = 0.005
-
-Output data:
-- Time series plot containing the proportion of grid with tree on fire, tree not on fire and empty sites.
-- Snap shot of the fire after the specified iteraitons.
-- Live animation of the wildfire.\
- If a wind direction was chosen then you will be able to view the affect of the wind on the model. The fire tends to drift towards the direction of the wind. This is a global behaviour over the whole grid even though it is only locally defined in our code.
-
-**4. <u> Functions.py** </u>\
-No need to run this file!\
-This file contains various functions which have been used in the above files.
